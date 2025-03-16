@@ -104,4 +104,27 @@ open class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
         return null
     }
 
+    fun printBreadthFirst() {
+        if (root == null) return
+        val queue: MutableList<Node<K, V>> = mutableListOf(root!!)
+        while (queue.isNotEmpty()) {
+            val node = queue.removeAt(0)
+            println("Ключ: ${node.key}, Значение: ${node.value}")
+            node.left?.let { queue.add(it) }
+            node.right?.let { queue.add(it) }
+        }
+    }
+
+    fun printDepthFirst() {
+        if (root == null) return
+        val stack = ArrayDeque<Node<K, V>>()
+        stack.add(root!!)
+        while (stack.isNotEmpty()) {
+            val node = stack.removeLast()
+            println("Ключ: ${node.key}, Значение: ${node.value}")
+            node.right?.let { stack.add(it) }
+            node.left?.let { stack.add(it) }
+        }
+    }
+
 }
