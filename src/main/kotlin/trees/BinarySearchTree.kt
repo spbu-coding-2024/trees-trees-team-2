@@ -1,17 +1,13 @@
 package trees
 
 import common.Tree
+import dto.Node
+import iterators.TreeBFSIterator
+import iterators.TreeDFSIterator
 
-open class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
+class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
 
-    protected class Node<K : Comparable<K>, V>(
-        var key: K,
-        var value: V,
-        var left: Node<K, V>? = null,
-        var right: Node<K, V>? = null
-    )
-
-    protected var root: Node<K, V>? = null
+    private var root: Node<K, V>? = null
 
     override fun insert(key: K, value: V) {
         if (root == null) {
@@ -104,27 +100,13 @@ open class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
         return null
     }
 
-    fun printBreadthFirst() {
-        if (root == null) return
-        val queue: MutableList<Node<K, V>> = mutableListOf(root!!)
-        while (queue.isNotEmpty()) {
-            val node = queue.removeAt(0)
-            println("Ключ: ${node.key}, Значение: ${node.value}")
-            node.left?.let { queue.add(it) }
-            node.right?.let { queue.add(it) }
-        }
+    fun treeBFSIterator(): Iterator<Node<K,V>> {
+        return TreeBFSIterator(root)
     }
 
-    fun printDepthFirst() {
-        if (root == null) return
-        val stack = ArrayDeque<Node<K, V>>()
-        stack.add(root!!)
-        while (stack.isNotEmpty()) {
-            val node = stack.removeLast()
-            println("Ключ: ${node.key}, Значение: ${node.value}")
-            node.right?.let { stack.add(it) }
-            node.left?.let { stack.add(it) }
-        }
+    fun treeDFSIterator(): Iterator<Node<K, V>> {
+        return TreeDFSIterator(root)
     }
+
 
 }
