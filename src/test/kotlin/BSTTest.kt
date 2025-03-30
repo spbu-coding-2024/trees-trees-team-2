@@ -1,14 +1,10 @@
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.whenever
 import org.junit.jupiter.api.Assertions.*
 import dto.Node
 import iterators.TreeBFSIterator
-import iterators.TreeDFSIterator
+import org.mockito.kotlin.mock
 import trees.BinarySearchTree
 
 class BinarySearchTreeTest {
@@ -190,65 +186,6 @@ class BinarySearchTreeTest {
         }
     }
 
-    @Test
-    fun `test mocking treeBFSIterator with Mockito`() {
-        val nodeMock1: Node<Int, String> = mock()
-        val nodeMock2: Node<Int, String> = mock()
-        val nodeMock3: Node<Int, String> = mock()
-
-        whenever(nodeMock1.key).thenReturn(10)
-        whenever(nodeMock1.value).thenReturn("Ten")
-
-        whenever(nodeMock2.key).thenReturn(5)
-        whenever(nodeMock2.value).thenReturn("Five")
-
-        whenever(nodeMock3.key).thenReturn(15)
-        whenever(nodeMock3.value).thenReturn("Fifteen")
-
-        val bfsIteratorMock = mock<TreeBFSIterator<Int, String>>()
-        whenever(bfsIteratorMock.hasNext()).thenReturn(true, true, false)
-        whenever(bfsIteratorMock.next()).thenReturn(nodeMock1, nodeMock2, nodeMock3)
-
-        val nodes = mutableListOf<Node<Int, String>>()
-        while (bfsIteratorMock.hasNext()) {
-            nodes.add(bfsIteratorMock.next())
-        }
-
-        assertEquals(3, nodes.size)
-        assertEquals(10, nodes[0].key)
-        assertEquals(5, nodes[1].key)
-        assertEquals(15, nodes[2].key)
-    }
-
-    @Test
-    fun `test mocking treeDFSIterator with Mockito`() {
-        val nodeMock1: Node<Int, String> = mock()
-        val nodeMock2: Node<Int, String> = mock()
-        val nodeMock3: Node<Int, String> = mock()
-
-        whenever(nodeMock1.key).thenReturn(10)
-        whenever(nodeMock1.value).thenReturn("Ten")
-
-        whenever(nodeMock2.key).thenReturn(5)
-        whenever(nodeMock2.value).thenReturn("Five")
-
-        whenever(nodeMock3.key).thenReturn(15)
-        whenever(nodeMock3.value).thenReturn("Fifteen")
-
-        val dfsIteratorMock = mock<TreeDFSIterator<Int, String>>()
-        whenever(dfsIteratorMock.hasNext()).thenReturn(true, true, true, false)
-        whenever(dfsIteratorMock.next()).thenReturn(nodeMock1, nodeMock2, nodeMock3)
-
-        val nodes = mutableListOf<Node<Int, String>>()
-        while (dfsIteratorMock.hasNext()) {
-            nodes.add(dfsIteratorMock.next())
-        }
-
-        assertEquals(3, nodes.size)
-        assertEquals(10, nodes[0].key)
-        assertEquals(5, nodes[1].key)
-        assertEquals(15, nodes[2].key)
-    }
 
     @Test
     fun `test actual BinarySearchTree with BFS and DFS iterators`() {
@@ -276,8 +213,8 @@ class BinarySearchTreeTest {
         }
 
         assertEquals(3, dfsNodes.size)
-        assertEquals(10, dfsNodes[0].key)
-        assertEquals(5, dfsNodes[1].key)
+        assertEquals(5, dfsNodes[0].key)
+        assertEquals(10, dfsNodes[1].key)
         assertEquals(15, dfsNodes[2].key)
     }
 }

@@ -11,10 +11,7 @@ repositories {
 
 dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation("org.mockito:mockito-core:4.8.0") // Основной Mockito
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0") // Kotlin-расширение для Mockito
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0") // JUnit 5 для тестов
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0") // Драйвер для запуска тестов JUnit 5
 }
 
 test {
