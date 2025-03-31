@@ -12,9 +12,12 @@ com/example/datastructures/
 │   ├── Tree.kt           # Интерфейс для деревьев
 │── dto/                  # Общие объекты
 │   ├── Node.kt           # Самый базовый узел
+│   ├── AVLNode.kt           # Узел для АВЛ-дерева
 │── iterators/            # Общие итераторы
 │   ├── TreeBFSIterator.kt  # Итератор обхода в ширину
 │   ├── TreeDFSIterator.kt  # Итератор обхода в глубину
+│   ├── TreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
+│   ├── TreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
 │── trees/                # Реализации различных деревьев
 │   ├── BinarySearchTree.kt    # Реализация BST
 │   ├── RedBlackTree.kt        # Реализация красно-черного дерева
@@ -30,7 +33,7 @@ com/example/datastructures/
 ## 🚀 Начало работы
 ### 1️⃣ Клонирование репозитория
 ```sh
-git clone https://github.com/alken1t15/datastructures.git
+git clone https://github.com/spbu-coding-2024/trees-trees-team-2.git
 cd datastructures
 ```
 
@@ -48,7 +51,7 @@ gradle test
 ## 🛠 Использование
 Вы можете создать и использовать любое дерево следующим образом:
 ```kotlin
-import com.example.datastructures.trees.BinarySearchTree
+import com.example.trees.BinarySearchTree
 
 fun main() {
     val bst = BinarySearchTree<Int, Int>()
