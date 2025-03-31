@@ -4,7 +4,6 @@ import common.Tree
 import dto.AVLNode
 import iterators.AVLTreeBFSIterator
 import iterators.AVLTreeDFSIterator
-import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.math.max
 import kotlin.collections.ArrayDeque
 

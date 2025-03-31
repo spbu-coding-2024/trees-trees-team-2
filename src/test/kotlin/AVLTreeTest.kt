@@ -1,9 +1,7 @@
 import dto.AVLNode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.whenever
 import org.junit.jupiter.api.Assertions.*
-import org.mockito.kotlin.mock
 import trees.AVLTree
 
 class AVLTreeTest {
