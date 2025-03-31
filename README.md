@@ -13,18 +13,18 @@ com/example/datastructures/
 │── dto/                  # Общие объекты
 │   ├── Node.kt           # Самый базовый узел
 │   ├── AVLNode.kt           # Узел для АВЛ-дерева
+│   ├── RBNode.kt           # Узел для АВЛ-дерева
 │── iterators/            # Общие итераторы
 │   ├── TreeBFSIterator.kt  # Итератор обхода в ширину
 │   ├── TreeDFSIterator.kt  # Итератор обхода в глубину
-│   ├── TreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
-│   ├── TreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
+│   ├── AVLTreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
+│   ├── AVLTreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
 │── trees/                # Реализации различных деревьев
 │   ├── BinarySearchTree.kt    # Реализация BST
 │   ├── RedBlackTree.kt        # Реализация красно-черного дерева
 │   ├── AVLTree.kt             # Реализация AVL-дерева
 │
 └── test/                 # Юнит-тесты для деревьев
-    ├── TreeTest.kt
     ├── BSTTest.kt
     ├── RedBlackTreeTest.kt
     ├── AVLTreeTest.kt
