@@ -19,8 +19,8 @@ com/example/datastructures/
 │   ├── TreeDFSIterator.kt  # Итератор обхода в глубину
 │   ├── AVLTreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
 │   ├── AVLTreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
-│   ├── RBTreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
-│   ├── RBTreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
+│   ├── RBTreeBFSIterator.kt  # Итератор обхода в ширину для Красно-черного дерева
+│   ├── RBTreeDFSIterator.kt  # Итератор обхода в глубину для Красно-черного дерева
 │── trees/                # Реализации различных деревьев
 │   ├── BinarySearchTree.kt    # Реализация BST
 │   ├── RedBlackTree.kt        # Реализация красно-черного дерева
