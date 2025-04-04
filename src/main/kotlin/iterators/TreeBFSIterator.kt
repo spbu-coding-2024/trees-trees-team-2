@@ -1,9 +1,10 @@
 package iterators
 
+import dto.BNode
 import dto.Node
 
-class TreeBFSIterator<K : Comparable<K>, V>(root: Node<K, V>?) : Iterator<Node<K, V>> {
-    private val queue = ArrayDeque<Node<K, V>>()
+class TreeBFSIterator<K : Comparable<K>, V>(root: BNode<K, V>?) : Iterator<BNode<K, V>> {
+    private val queue = ArrayDeque<BNode<K, V>>()
 
     init {
         if (root != null) {
@@ -13,7 +14,7 @@ class TreeBFSIterator<K : Comparable<K>, V>(root: Node<K, V>?) : Iterator<Node<K
 
     override fun hasNext(): Boolean = queue.isNotEmpty()
 
-    override fun next(): Node<K, V> {
+    override fun next(): BNode<K, V> {
         if (!hasNext()) throw NoSuchElementException()
 
         val node = queue.removeFirst()

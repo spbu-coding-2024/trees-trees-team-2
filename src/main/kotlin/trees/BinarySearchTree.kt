@@ -1,29 +1,30 @@
 package trees
 
 import common.Tree
+import dto.BNode
 import dto.Node
 import iterators.TreeBFSIterator
 import iterators.TreeDFSIterator
 
 class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
 
-    private var root: Node<K, V>? = null
+    private var root: BNode<K, V>? = null
 
     override fun insert(key: K, value: V) {
         if (root == null) {
-            root = Node(key, value)
+            root = BNode(key, value)
         } else {
             var node = root
             while (node != null) {
                 if (key < node.key) {
                     if (node.left == null) {
-                        node.left = Node(key, value)
+                        node.left = BNode(key, value)
                         break
                     }
                     node = node.left
                 } else if (key > node.key) {
                     if (node.right == null) {
-                        node.right = Node(key, value)
+                        node.right = BNode(key, value)
                         break
                     }
                     node = node.right
@@ -38,7 +39,7 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
 
     override fun delete(key: K): Boolean {
         var node = root
-        var parent: Node<K, V>? = null
+        var parent: BNode<K, V>? = null
 
         // Поиск узла и его родителя
         while (node != null && node.key != key) {
@@ -61,8 +62,8 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
             }
         } else {
             // Находим наименьший узел в правом поддереве (замену)
-            var successor: Node<K, V>? = node.right
-            var successorParent: Node<K, V>? = node
+            var successor: BNode<K, V>? = node.right
+            var successorParent: BNode<K, V>? = node
 
             while (successor?.left != null) { // Безопасный вызов ?.left
                 successorParent = successor
@@ -93,11 +94,11 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
         return searchValue(root, key)
     }
 
-    fun treeBFSIterator(): Iterator<Node<K, V>> {
+    fun treeBFSIterator(): Iterator<BNode<K, V>> {
         return TreeBFSIterator(root)
     }
 
-    fun treeDFSIterator(): Iterator<Node<K, V>> {
+    fun treeDFSIterator(): Iterator<BNode<K, V>> {
         return TreeDFSIterator(root)
     }
 
