@@ -1,3 +1,4 @@
+import dto.BNode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -109,7 +110,7 @@ class BinarySearchTreeTest {
 
         val iterator = bst.treeBFSIterator()
 
-        val nodes = mutableListOf<Node<Int, String>>()
+        val nodes = mutableListOf<BNode<Int, String>>()
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
@@ -137,7 +138,7 @@ class BinarySearchTreeTest {
         bst.insert(10, "Ten")
         val iterator = bst.treeBFSIterator()
 
-        val nodes = mutableListOf<Node<Int, String>>()
+        val nodes = mutableListOf<BNode<Int, String>>()
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
@@ -151,7 +152,7 @@ class BinarySearchTreeTest {
         bst.insert(10, "Ten")
         val iterator = bst.treeDFSIterator()
 
-        val nodes = mutableListOf<Node<Int, String>>()
+        val nodes = mutableListOf<BNode<Int, String>>()
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
@@ -193,7 +194,7 @@ class BinarySearchTreeTest {
         bst.insert(15, "Fifteen")
 
         val bfsIterator = bst.treeBFSIterator()
-        val bfsNodes = mutableListOf<Node<Int, String>>()
+        val bfsNodes = mutableListOf<BNode<Int, String>>()
         while (bfsIterator.hasNext()) {
             bfsNodes.add(bfsIterator.next())
         }
@@ -204,7 +205,7 @@ class BinarySearchTreeTest {
         assertEquals(15, bfsNodes[2].key)
 
         val dfsIterator = bst.treeDFSIterator()
-        val dfsNodes = mutableListOf<Node<Int, String>>()
+        val dfsNodes = mutableListOf<BNode<Int, String>>()
         while (dfsIterator.hasNext()) {
             dfsNodes.add(dfsIterator.next())
         }
@@ -284,7 +285,7 @@ class BinarySearchTreeTest {
         }
 
         val iterator = bst.treeBFSIterator()
-        val nodes = mutableListOf<Node<Int, String>>()
+        val nodes = mutableListOf<BNode<Int, String>>()
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
@@ -301,7 +302,7 @@ class BinarySearchTreeTest {
         }
 
         val iterator = bst.treeDFSIterator()
-        val nodes = mutableListOf<Node<Int, String>>()
+        val nodes = mutableListOf<BNode<Int, String>>()
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
@@ -523,7 +524,7 @@ class BinarySearchTreeTest {
 
         // BFS traversal (should be level-wise)
         val bfsIterator = bst.treeBFSIterator()
-        val bfsNodes = mutableListOf<Node<Int, String>>()
+        val bfsNodes = mutableListOf<BNode<Int, String>>()
         while (bfsIterator.hasNext()) {
             bfsNodes.add(bfsIterator.next())
         }
@@ -539,7 +540,7 @@ class BinarySearchTreeTest {
 
         // DFS traversal (should be depth-first)
         val dfsIterator = bst.treeDFSIterator()
-        val dfsNodes = mutableListOf<Node<Int, String>>()
+        val dfsNodes = mutableListOf<BNode<Int, String>>()
         while (dfsIterator.hasNext()) {
             dfsNodes.add(dfsIterator.next())
         }
