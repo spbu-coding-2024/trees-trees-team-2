@@ -4,7 +4,7 @@ import RBNode
 import common.Tree
 
 
-class RedBlackTree<K : Comparable<K>, V> : Tree<K, V> {
+class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     var root: RBNode<K, V>? = null
 
 
@@ -292,9 +292,11 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V> {
 
 
     override fun insert(key: K, value: V) {
-        val newRBNode = RBNode(key, value, color = true)
+        val newRBNode = RBNode(key, value)
         if (root == null) {
-            root = RBNode(key = key, value = value, color = false)
+            root = RBNode(key = key, value = value)
+            root?.color = false
+
             return
         }
         var currentRBNode: RBNode<K, V>? = root
@@ -339,9 +341,10 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V> {
         return null
     }
 
-    override fun delete(key: K) {
-        val node = findNode(key) ?: return
+    override fun delete(key: K): Boolean {
+        val node = findNode(key) ?: return false
         deleteNode(node)
+        return true
     }
 
 }
