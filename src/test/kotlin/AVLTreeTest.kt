@@ -304,6 +304,15 @@ class AVLTreeTest {
         while (iterator.hasNext()) {
             nodes.add(iterator.next())
         }
+
+        assertEquals(500, nodes.size)
+        while (nodes.isNotEmpty()){
+            val tmp = nodes.removeLast()
+            if ((getBalanceValue(tmp) < -1) || (getBalanceValue(tmp) > 1)){
+                assertEquals(0, getBalanceValue(tmp))
+            }
+            assertEquals(confirmHeight(tmp), tmp.height)
+        }
     }
 
     @Test
@@ -315,7 +324,6 @@ class AVLTreeTest {
         for (i in 1..10000) {
             assertEquals("Value$i", bst.search(i))
         }
-
         //test a number of elements in tree
         val iterator = bst.treeBFSIterator()
         val nodes = mutableListOf<AVLNode<Int, String>>()

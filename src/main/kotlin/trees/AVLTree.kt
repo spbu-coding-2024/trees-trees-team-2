@@ -7,9 +7,85 @@ import iterators.AVLTreeDFSIterator
 import kotlin.math.max
 import kotlin.collections.ArrayDeque
 
-class AVLTree<K : Comparable<K>, V> : Tree<K, V> {
+class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
 
     private var root: AVLNode<K, V>? = null
+
+    //Реализация левого поворота
+    private fun leftRotate(node: AVLNode<K, V>?): AVLNode<K, V>?  {
+        if (node != null) {
+            val tmpNode = node.right
+            node.right = tmpNode?.left
+            tmpNode?.left = node
+            fixHeight(node)
+            fixHeight(tmpNode)
+            return tmpNode
+        }
+        return null
+    }
+    //Реализация правого поворота
+    private fun rightRotate(node: AVLNode<K, V>?): AVLNode<K, V>? {
+        if (node != null) {
+            val tmpNode = node.left
+            node.left = tmpNode?.right
+            tmpNode?.right = node
+            fixHeight(node)
+            fixHeight(tmpNode)
+            return tmpNode
+        }
+        return null
+    }
+    //Реализация балансировки
+    //На вход функции подаётся стэк с вершинами, у которых мог измениться фактор баланса
+    //В порядке от самой дальней вершины, до дальней -1 и т.д до самого корня
+    //В стэке вершины хранятся парами: сверху стэка хранится узел, сразу же под ним идёт его родитель.
+    //Соответственно из стэка вершины убираются парами
+    private fun balance(stack: ArrayDeque<AVLNode<K, V>?>) {
+        while (stack.isNotEmpty()) {
+            //Достаём вершину и его родителя
+            val unbalanceNode = stack.removeLast()
+            val parent = stack.removeLast()
+            //Чиним высоту вершины
+            if (unbalanceNode != null) {
+                fixHeight(unbalanceNode)
+            }
+            //Расчитываем баланс фактор, баланс фактор считается по формуле: высота правого - высота левого потомка
+            val balanceF = getBalanceValue(unbalanceNode)
+            //Выполняем балансировку
+            if (balanceF > 1) {
+                if (unbalanceNode != null) {
+                    if (getBalanceValue(unbalanceNode.right) < 0) {
+                        unbalanceNode.right = rightRotate(unbalanceNode.right)
+                    }
+                    if (parent != null) {
+                        if (parent.key < unbalanceNode.key) {
+                            parent.right = leftRotate(unbalanceNode)
+                        } else {
+                            parent.left = leftRotate(unbalanceNode)
+                        }
+                    }else {
+                        root = leftRotate(unbalanceNode)
+                    }
+                }
+            }
+            if (balanceF < -1) {
+                if (unbalanceNode != null) {
+                    if (getBalanceValue(unbalanceNode.left) < 0) {
+                        unbalanceNode.right = leftRotate(unbalanceNode.left)
+                    }
+                    if (parent != null) {
+                        if (parent.key < unbalanceNode.key) {
+                            parent.right = rightRotate(unbalanceNode)
+                        } else {
+                            parent.left = rightRotate(unbalanceNode)
+                        }
+                    }else {
+                        root = rightRotate(unbalanceNode)
+                    }
+                }
+            }
+        }
+    }
 
     override fun insert(key: K, value: V) {
         if (root == null) {
@@ -17,6 +93,8 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V> {
         } else {
             var node = root
             val stack = ArrayDeque<AVLNode<K, V>?>()
+            stack.addLast(null)
+            stack.addLast(node)
             while (node != null) {
                 if (key < node.key) {
                     if (node.left == null) {
@@ -27,6 +105,7 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V> {
                     }
                     stack.addLast(node)
                     node = node.left
+                    stack.addLast(node)
                 } else if (key > node.key) {
                     if (node.right == null) {
                         node.right = AVLNode(key, value)
@@ -36,258 +115,97 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V> {
                     }
                     stack.addLast(node)
                     node = node.right
+                    stack.addLast(node)
                 } else if (key == node.key) {
                     node.value = value
                     break
                 }
             }
-            while (stack.isNotEmpty()) {
-                val unbalanceNode = stack.removeLast()
-                if (unbalanceNode != null) {
-                    unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                }
-                val balance = getBalanceValue(unbalanceNode)
-                if (balance > 1) {
-                    if (unbalanceNode != null) {
-                        val right = unbalanceNode.right
-                        if (getBalanceValue(right) < 0) {
-                            if (right != null) {
-                                val tmpNode = right.left
-                                if (tmpNode != null) {
-                                    right.left = tmpNode.right
-                                    tmpNode.right = right
-                                }
-                                right.height = 1 + max(confirmHeight(right.left), confirmHeight(right.right))
-                                if (tmpNode != null) {
-                                    tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                                }
-                                unbalanceNode.right = tmpNode
-                                unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                            }
-                        }
-                    }
-                    if (unbalanceNode != null) {
-                        val tmpNode = unbalanceNode.right
-                        if (tmpNode != null) {
-                            unbalanceNode.right = tmpNode.left
-                            tmpNode.left = unbalanceNode
-                        }
-                        unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                        if (tmpNode != null) {
-                            tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                        }
-                        if (stack.isNotEmpty()) {
-                            val parent1 = stack.last()
-                            if (parent1 != null) {
-                                parent1.right = tmpNode
-                                parent1.height = 1 + max(confirmHeight(parent1.left), confirmHeight(parent1.right))
-                            }
-                        }else {
-                            root = tmpNode
-                        }
-                    }
-                }
-                if (balance < -1) {
-                    if (unbalanceNode != null) {
-                        val left = unbalanceNode.left
-                        if (getBalanceValue(left) > 0) {
-                            if (left != null) {
-                                val tmpNode = left.right
-                                if (tmpNode != null) {
-                                    left.right = tmpNode.left
-                                    tmpNode.left = left
-                                }
-                                left.height = 1 + max(confirmHeight(left.left), confirmHeight(left.right))
-                                if (tmpNode != null) {
-                                    tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                                }
-                                unbalanceNode.left = tmpNode
-                                unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                            }
-                        }
-                    }
-                    if (unbalanceNode != null) {
-                        val tmpNode = unbalanceNode.left
-                        if (tmpNode != null) {
-                            unbalanceNode.left = tmpNode.right
-                            tmpNode.right = unbalanceNode
-                        }
-                        unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                        if (tmpNode != null) {
-                            tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                        }
-                        if (stack.isNotEmpty()) {
-                            val parent1 = stack.last()
-                            if (parent1 != null) {
-                                parent1.left = tmpNode
-                                parent1.height = 1 + max(confirmHeight(parent1.left), confirmHeight(parent1.right))
-                            }
-                        }else {
-                            root = tmpNode
-                        }
-                    }
-                }
-            }
+
+            balance(stack)
         }
     }
 
 
-    override fun delete(key: K) {
+    override fun delete(key: K): Boolean {
         var node = root
         var parent: AVLNode<K, V>? = null
         val stack = ArrayDeque<AVLNode<K, V>?>()
+        stack.addLast(parent)
+        stack.addLast(node)
 
         // Поиск узла и его родителя
         while (node != null && node.key != key) {
-            stack.addLast(node)
             parent = node
-            node = if (key < node.key) node.left else node.right
-        }
-        if (stack.isNotEmpty()) {
-            stack.removeLast()
+            node = if (key < node.key) {
+                node.left
+            } else {
+                node.right
+            }
+            stack.addLast(parent)
+            stack.addLast(node)
         }
 
-        if (node == null) return // Узел не найден
+        if (node == null) return false// Узел не найден
 
         // Если у узла нет правого поддерева
         if (node.right == null) {
             if (parent == null) {
                 root = node.left // Удаляемый узел - корень
-                val tmp = node.left
-                if (tmp != null) {
-                    tmp.height = 1 + max(confirmHeight(tmp.left), confirmHeight(tmp.right))
-                }
-                stack.addLast(node.left)
+                stack.addLast(null)
+                stack.addLast(root)
             } else {
                 if (node == parent.left) {
                     parent.left = node.left
                 } else {
                     parent.right = node.left
                 }
-                parent.height = 1 + max(confirmHeight(parent.left), confirmHeight(parent.right))
+                stack.addLast(parent)
+                stack.addLast(node)
             }
         } else {
             // Находим наименьший узел в правом поддереве (замену)
             var successor: AVLNode<K, V>? = node.right
             var successorParent: AVLNode<K, V>? = node
+            stack.addLast(successorParent)
+            stack.addLast(successor)
 
             while (successor?.left != null) { // Безопасный вызов ?.left
                 successorParent = successor
                 successor = successor.left
+                stack.addLast(successorParent)
+                stack.addLast(successor)
             }
 
             // Заменяем удаляемый узел найденным узлом
             if (successorParent != node) {
                 successorParent?.left = successor?.right // Безопасный вызов ?.
                 successor?.right = node.right
+                stack.addLast(successorParent?.left)
+                stack.addLast(successor?.right )
             }
 
             successor?.left = node.left
 
-            if (successor != null) {
-                successor.height = 1 + max(confirmHeight(successor.left), confirmHeight(successor.right))
-            }
 
             if (parent == null) {
                 root = successor // Если удаляем корень, меняем его на successor
+                stack.addLast(null)
+                stack.addLast(root)
             } else if (node == parent.left) {
                 parent.left = successor
-                parent.height = 1 + max(confirmHeight(parent.left), confirmHeight(parent.right))
+                stack.addLast(parent)
+                stack.addLast(successor)
             } else {
                 parent.right = successor
-                parent.height = 1 + max(confirmHeight(parent.left), confirmHeight(parent.right))
+                stack.addLast(parent)
+                stack.addLast(successor)
             }
 
         }
 
-        while (stack.isNotEmpty()) {
-            val unbalanceNode = stack.removeLast()
-            if (unbalanceNode != null) {
-                unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-            }
-            var balance = getBalanceValue(unbalanceNode)
-            if (balance > 1) {
-                if (unbalanceNode != null) {
-                    val right = unbalanceNode.right
-                    if (getBalanceValue(right) < 0) {
-                        if (right != null) {
-                            val tmpNode = right.left
-                            if (tmpNode != null) {
-                                right.left = tmpNode.right
-                                tmpNode.right = right
-                            }
-                            right.height = 1 + max(confirmHeight(right.left), confirmHeight(right.right))
-                            if (tmpNode != null) {
-                                tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                            }
-                            unbalanceNode.right = tmpNode
-                            unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                        }
-                    }
-                }
-                if (unbalanceNode != null) {
-                    val tmpNode = unbalanceNode.right
-                    if (tmpNode != null) {
-                        unbalanceNode.right = tmpNode.left
-                        tmpNode.left = unbalanceNode
-                    }
-                    unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                    if (tmpNode != null) {
-                        tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                    }
-                    if (stack.isNotEmpty()) {
-                        val parent1 = stack.last()
-                        if (parent1 != null) {
-                            parent1.right = tmpNode
-                            parent1.height = 1 + max(confirmHeight(parent1.left), confirmHeight(parent1.right))
-                        }
-                    }else {
-                        root = tmpNode
-                    }
-                }
-            }
-            if (balance < -1) {
-                if (unbalanceNode != null) {
-                    val left = unbalanceNode.left
-                    if (getBalanceValue(left) > 0) {
-                        if (left != null) {
-                            val tmpNode = left.right
-                            if (tmpNode != null) {
-                                left.right = tmpNode.left
-                                tmpNode.left = left
-                            }
-                            left.height = 1 + max(confirmHeight(left.left), confirmHeight(left.right))
-                            if (tmpNode != null) {
-                                tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                            }
-                            unbalanceNode.left = tmpNode
-                            unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                        }
-                    }
-                }
-                if (unbalanceNode != null) {
-                    val tmpNode = unbalanceNode.left
-                    if (tmpNode != null) {
-                        unbalanceNode.left = tmpNode.right
-                        tmpNode.right = unbalanceNode
-                    }
-                    unbalanceNode.height = 1 + max(confirmHeight(unbalanceNode.left), confirmHeight(unbalanceNode.right))
-                    if (tmpNode != null) {
-                        tmpNode.height = 1 + max(confirmHeight(tmpNode.left), confirmHeight(tmpNode.right))
-                    }
-                    if (stack.isNotEmpty()) {
-                        val parent1 = stack.last()
-                        if (parent1 != null) {
-                            parent1.left = tmpNode
-                            parent1.height = 1 + max(confirmHeight(parent1.left), confirmHeight(parent1.right))
-                        }
-                    }else {
-                        root = tmpNode
-                    }
-                }
-            }
-        }
-
+        balance(stack)
+        return true
     }
 
     override fun search(key: K): V? {
@@ -315,6 +233,13 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V> {
         }
         return confirmHeight(node.right) - confirmHeight(node.left)
     }
+
+    private fun fixHeight(node: AVLNode<K, V>?){
+        if (node != null) {
+            node.height = 1 + max(confirmHeight(node.left), confirmHeight(node.right))
+        }
+    }
+
 
     fun treeBFSIterator(): Iterator<AVLNode<K, V>> {
         return AVLTreeBFSIterator(root)
