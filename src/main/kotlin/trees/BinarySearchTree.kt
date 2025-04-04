@@ -46,7 +46,7 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
             node = if (key < node.key) node.left else node.right
         }
 
-        if (node == null) return false // Узел не найден
+        if (node == null) return false// Узел не найден
 
         // Если у узла нет правого поддерева
         if (node.right == null) {
@@ -89,13 +89,16 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
     }
 
 
-    fun treeBFSIterator(): Iterator<Node<K,V>> {
+    override fun search(key: K): V? {
+        return searchValue(root, key)
+    }
+
+    fun treeBFSIterator(): Iterator<Node<K, V>> {
         return TreeBFSIterator(root)
     }
 
     fun treeDFSIterator(): Iterator<Node<K, V>> {
         return TreeDFSIterator(root)
     }
-
 
 }

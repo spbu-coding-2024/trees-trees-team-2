@@ -3,10 +3,11 @@ package common
 import dto.Node
 
 abstract class Tree<K : Comparable<K>, V> {
-    private var root: Node<K, V>? = null
     abstract fun insert(key: K, value: V)
 
-    fun search(key: K): V? {
+    abstract fun search(key: K): V?
+
+    protected fun searchValue(root: Node<K, V>?, key: K): V? {
         var node = root;
         while (node != null) {
             node = when {
