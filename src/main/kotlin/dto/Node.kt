@@ -1,8 +1,8 @@
 package dto
 
-open class Node<K : Comparable<K>, V>(
+open class Node<K : Comparable<K>, V, T>(
     var key: K,
     var value: V,
-    var left: Node<K, V>? = null,
-    var right: Node<K, V>? = null
+    var left: T? = null,
+    var right: T? = null
 )
