@@ -5,7 +5,7 @@ import dto.Node
 import iterators.TreeBFSIterator
 import iterators.TreeDFSIterator
 
-class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
+class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
 
     private var root: Node<K, V>? = null
 
@@ -36,7 +36,7 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
     }
 
 
-    override fun delete(key: K) {
+    override fun delete(key: K): Boolean {
         var node = root
         var parent: Node<K, V>? = null
 
@@ -46,7 +46,7 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
             node = if (key < node.key) node.left else node.right
         }
 
-        if (node == null) return // Узел не найден
+        if (node == null) return false// Узел не найден
 
         // Если у узла нет правого поддерева
         if (node.right == null) {
@@ -85,28 +85,20 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V> {
                 parent.right = successor
             }
         }
+        return false
     }
 
 
     override fun search(key: K): V? {
-        var node = root;
-        while (node != null) {
-            node = when {
-                key < node.key -> node.left
-                key > node.key -> node.right
-                else -> return node.value
-            }
-        }
-        return null
+        return searchValue(root, key)
     }
 
-    fun treeBFSIterator(): Iterator<Node<K,V>> {
+    fun treeBFSIterator(): Iterator<Node<K, V>> {
         return TreeBFSIterator(root)
     }
 
     fun treeDFSIterator(): Iterator<Node<K, V>> {
         return TreeDFSIterator(root)
     }
-
 
 }
