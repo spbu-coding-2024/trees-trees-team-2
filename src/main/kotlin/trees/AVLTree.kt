@@ -7,7 +7,7 @@ import iterators.AVLTreeDFSIterator
 import kotlin.math.max
 import kotlin.collections.ArrayDeque
 
-class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
+class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
 
     private var root: AVLNode<K, V>? = null
 
@@ -236,16 +236,9 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
     }
 
     override fun search(key: K): V? {
-        var node = root
-        while (node != null) {
-            node = when {
-                key < node.key -> node.left
-                key > node.key -> node.right
-                else -> return node.value
-            }
-        }
-        return null
+        return searchValue(root, key)
     }
+
     /* Возвращаем высоту вершины */
     private fun confirmHeight(node: AVLNode<K, V>?): Int {
         if (node == null) {
