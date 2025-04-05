@@ -25,7 +25,7 @@ class RedBlackTreeTest{
         val right = checkBlackHeightProperty(RBNode.right)
         if (!left.first || !right.first) return Pair(false, 0)
         if (left.second != right.second) return Pair(false, 0)
-        val currentHeight = if (!RBNode.color) left.second + 1 else left.second
+        val currentHeight = if (RBNode.color == Color.BLACK) left.second + 1 else left.second
         return Pair(true, currentHeight)
     }
     private fun HeightValid(root: RBNode<Int, Int>?): Boolean {
@@ -37,8 +37,8 @@ class RedBlackTreeTest{
         if (!(RBNode.key > minimum && RBNode.key < maximum)){
             return false
         }
-        if (RBNode.color){
-            if ((RBNode.left?.color != false && RBNode.left?.color != null) || (RBNode.right?.color != false && RBNode.right?.color != null)){
+        if (RBNode.color == Color.RED){
+            if ((RBNode.left?.color != Color.BLACK && RBNode.left?.color != null) || (RBNode.right?.color != Color.BLACK && RBNode.right?.color != null)){
                 return false
             }
         }
