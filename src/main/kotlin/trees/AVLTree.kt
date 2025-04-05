@@ -2,8 +2,8 @@ package trees
 
 import common.Tree
 import dto.AVLNode
-import iterators.AVLTreeBFSIterator
-import iterators.AVLTreeDFSIterator
+import iterators.TreeBFSIterator
+import iterators.TreeDFSIterator
 import kotlin.math.max
 import kotlin.collections.ArrayDeque
 
@@ -260,12 +260,12 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         }
     }
 
-    fun treeBFSIterator(): Iterator<AVLNode<K, V>> {
-        return AVLTreeBFSIterator(root)
+    override fun treeBFSIterator(): Iterator<AVLNode<K, V>> {
+        return TreeBFSIterator(root)
     }
 
-    fun treeDFSIterator(): Iterator<AVLNode<K, V>> {
-        return AVLTreeDFSIterator(root)
+    override fun treeDFSIterator(): Iterator<AVLNode<K, V>> {
+        return TreeDFSIterator(root)
     }
 
 }
