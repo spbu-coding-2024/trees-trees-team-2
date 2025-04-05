@@ -1,14 +1,13 @@
 package common
 
-import dto.BNode
 import dto.Node
 
-abstract class Tree<K : Comparable<K>, V> {
+abstract class Tree<K : Comparable<K>, V, T : Node<K,V,T>> {
     abstract fun insert(key: K, value: V)
 
     abstract fun search(key: K): V?
 
-    protected fun searchValue(root: BNode<K, V>?, key: K): V? {
+    protected fun searchValue(root: T?, key: K): V? {
         var node = root;
         while (node != null) {
             node = when {
