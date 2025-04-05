@@ -1,10 +1,14 @@
 package trees
 
+import Color
 import RBNode
 import common.Tree
+import dto.Node
+import iterators.TreeBFSIterator
+import iterators.TreeDFSIterator
 
 
-class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
+class RedBlackTree<K : Comparable<K>, V> : Tree<K, V,RBNode<K,V>>() {
     var root: RBNode<K, V>? = null
 
 
@@ -15,27 +19,23 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
         if (RBNode == root) {
             root = leftChild
         }
-        val p = RBNode.left
-        if (p != null) {
-            p.parent = RBNode.parent
-        }
-
+            leftChild.parent = RBNode.parent
         if (RBNode.parent!=null){
             if (RBNode.parent?.left == RBNode){
-                RBNode.parent?.left = p
+                RBNode.parent?.left = leftChild
             }
             else{
-                RBNode.parent?.right = p
+                RBNode.parent?.right = leftChild
             }
         }
-        RBNode.left = p?.right
-        if (p?.right!=null){
-            p.right?.parent = RBNode
+        RBNode.left = leftChild?.right
+        if (leftChild.right!=null){
+            leftChild.right?.parent = RBNode
 
 
         }
-        RBNode.parent = p
-        p?.right = RBNode
+        RBNode.parent = leftChild
+        leftChild.right = RBNode
     }
     private fun  rotateLeft(RBNode: RBNode<K, V>?){
         val rightChild = RBNode?.right ?: return
@@ -76,7 +76,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     }
     private fun  insert_case1(RBNode: RBNode<K, V>?) {
         if (RBNode?.parent == null) {
-            RBNode?.color = false
+            RBNode?.color = Color.BLACK
         }
         else{
             insert_case2(RBNode)
@@ -84,7 +84,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
         return
     }
     private fun  insert_case2(RBNode: RBNode<K, V>){
-        if (RBNode.parent?.color == false){
+        if (RBNode.parent?.color == Color.BLACK){
             return
         }else{
             insert_case3(RBNode)
@@ -92,10 +92,10 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     }
     private fun  insert_case3(RBNode: RBNode<K, V>?){
         val uncle = uncle(RBNode)
-        if((uncle != null) && uncle.color){
-            RBNode?.parent?.color = false
-            uncle.color = false
-            RBNode?.parent?.parent?.color = true
+        if((uncle != null) && uncle.color == Color.RED){
+            RBNode?.parent?.color = Color.BLACK
+            uncle.color = Color.BLACK
+            RBNode?.parent?.parent?.color = Color.RED
             insert_case1(RBNode?.parent?.parent)
         }
         else{
@@ -122,8 +122,8 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     private fun insertCase5(RBNode: RBNode<K, V>?) {
         val parent = RBNode?.parent
         val g = parent?.parent
-        parent?.color = false
-        g?.color = true
+        parent?.color = Color.BLACK
+        g?.color = Color.RED
         if (g == null) return
         val checkRoot = (g.parent == null)
         if (RBNode == parent.left && parent == g.left) {
@@ -133,7 +133,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
         }
         if (checkRoot) {
             root = g.parent
-            root?.color = false
+            root?.color = Color.BLACK
         }
 
     }
@@ -147,7 +147,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     fun deleteCase2(RBNode: RBNode<K, V>) {
         val s = sibling(RBNode)
         val parent = RBNode.parent
-        if (s?.color == true) {
+        if (s?.color == Color.RED) {
             if (RBNode == parent?.left) {
                 rotateLeft(parent)
             } else if (RBNode == parent?.right) {
@@ -172,9 +172,9 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     fun deleteCase3(RBNode: RBNode<K, V>) {
         val s = sibling(RBNode)
         val parent = RBNode.parent
-        if ((parent?.color == false) && (s?.color == false) &&
-            (s.right == null || s.right?.color == false) && (s.left == null || s.left?.color == false)) {
-            s.color = true
+        if ((parent?.color == Color.BLACK) && (s?.color == Color.BLACK) &&
+            (s.right == null || s.right?.color == Color.BLACK) && (s.left == null || s.left?.color == Color.BLACK)) {
+            s.color = Color.RED
             deleteCase1(parent)
         } else {
             deleteCase4(RBNode)
@@ -183,10 +183,10 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     fun deleteCase4(RBNode: RBNode<K, V>) {
         val s = sibling(RBNode)
         val parent = RBNode.parent
-        if ((parent?.color == true) && (s?.color == false) &&
-            (s.right == null || s.right?.color == false) && (s.left == null || s.left?.color == false)) {
-            s.color = true
-            parent.color = false
+        if ((parent?.color == Color.RED) && (s?.color == Color.BLACK) &&
+            (s.right == null || s.right?.color == Color.BLACK) && (s.left == null || s.left?.color == Color.BLACK)) {
+            s.color = Color.RED
+            parent.color = Color.BLACK
         } else {
             deleteCase5(RBNode)
         }
@@ -194,10 +194,10 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
     fun deleteCase5(RBNode: RBNode<K, V>) {
         val s = sibling(RBNode)
         val parent = RBNode.parent
-        if (s?.color == false) {
-            if ((RBNode == parent?.left) && (s.right == null || s.right?.color == false) && (s.left?.color == true)) {
+        if (s?.color == Color.BLACK) {
+            if ((RBNode == parent?.left) && (s.right == null || s.right?.color == Color.BLACK) && (s.left?.color == Color.RED)) {
                 rotateRight(s)
-            } else if ((RBNode == parent?.right) && (s.left == null || s.left?.color == false) && (s.right?.color == true)) {
+            } else if ((RBNode == parent?.right) && (s.left == null || s.left?.color == Color.BLACK) && (s.right?.color == Color.RED)) {
                 rotateLeft(s)
             }
         }
@@ -209,11 +209,11 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
 
 
         if (RBNode == parent?.left){
-            s?.right?.color = false
+            s?.right?.color = Color.BLACK
             rotateLeft(parent)
         }
         else{
-            s?.left?.color = false
+            s?.left?.color = Color.BLACK
             rotateRight(parent)
         }
         if (root== RBNode.parent){
@@ -252,7 +252,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
             root = null
             return
         }
-        if (RBNode.color && RBNode.isLeaf()) {
+        if (RBNode.color == Color.RED && RBNode.isLeaf()) {
             val parent = RBNode.parent
             if (parent != null) {
                 if (parent.left == RBNode) parent.left = null
@@ -261,13 +261,13 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
             return
         }
 
-        if (RBNode.color && RBNode.left != null && !(RBNode.left?.color == true)){
+        if (RBNode.color == Color.BLACK && RBNode.left != null){
             RBNode.key = RBNode.left?.key ?: return
             RBNode.value = RBNode.left?.value ?: return
             RBNode.left = null
             return
         }
-        if (RBNode.color && RBNode.right != null && !(RBNode.right?.color == true)){
+        if (RBNode.color == Color.BLACK && RBNode.right != null){
             RBNode.key = RBNode.right?.key ?: return
             RBNode.value = RBNode.right?.value ?: return
             RBNode.right = null
@@ -295,7 +295,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
         val newRBNode = RBNode(key, value)
         if (root == null) {
             root = RBNode(key = key, value = value)
-            root?.color = false
+            root?.color = Color.BLACK
 
             return
         }
@@ -321,7 +321,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
             }
         }
         insert_case1(newRBNode)
-        root?.color = false
+        root?.color = Color.BLACK
     }
 
     override fun search(key: K): V? {
@@ -345,6 +345,14 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V>() {
         val node = findNode(key) ?: return false
         deleteNode(node)
         return true
+    }
+
+    override fun treeBFSIterator(): Iterator<RBNode<K, V>> {
+        return TreeBFSIterator(root)
+    }
+
+    override fun treeDFSIterator(): Iterator<RBNode<K, V>> {
+        return TreeDFSIterator(root)
     }
 
 }
