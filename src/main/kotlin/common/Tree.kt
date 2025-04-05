@@ -2,7 +2,7 @@ package common
 
 import dto.Node
 
-abstract class Tree<K : Comparable<K>, V, T : Node<K,V,T>> {
+abstract class Tree<K : Comparable<K>, V, T : Node<K, V, T>> {
     abstract fun insert(key: K, value: V)
 
     abstract fun search(key: K): V?
@@ -20,4 +20,9 @@ abstract class Tree<K : Comparable<K>, V, T : Node<K,V,T>> {
     }
 
     abstract fun delete(key: K): Boolean
+
+    abstract fun treeBFSIterator(): Iterator<T>
+
+    abstract fun treeDFSIterator(): Iterator<T>
+
 }

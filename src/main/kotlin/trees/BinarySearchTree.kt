@@ -5,7 +5,7 @@ import dto.BNode
 import iterators.TreeBFSIterator
 import iterators.TreeDFSIterator
 
-class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V,BNode<K,V>>() {
+class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V, BNode<K, V>>() {
 
     private var root: BNode<K, V>? = null
 
@@ -93,11 +93,11 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V,BNode<K,V>>() {
         return searchValue(root, key)
     }
 
-    fun treeBFSIterator(): Iterator<BNode<K, V>> {
+    override fun treeBFSIterator(): Iterator<BNode<K, V>> {
         return TreeBFSIterator(root)
     }
 
-    fun treeDFSIterator(): Iterator<BNode<K, V>> {
+    override fun treeDFSIterator(): Iterator<BNode<K, V>> {
         return TreeDFSIterator(root)
     }
 

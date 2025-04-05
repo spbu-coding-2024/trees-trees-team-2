@@ -1,17 +1,16 @@
 package iterators
 
-import dto.BNode
 import dto.Node
 import kotlin.collections.ArrayDeque
 
-class TreeDFSIterator<K : Comparable<K>, V>(root: BNode<K, V>?) : Iterator<BNode<K, V>> {
-    private val stack = ArrayDeque<BNode<K, V>>()
+class TreeDFSIterator<K : Comparable<K>, V, T : Node<K, V, T>>(root: T?) : Iterator<T> {
+    private val stack = ArrayDeque<T>()
 
     init {
         pushLeft(root)
     }
 
-    private fun pushLeft(node: BNode<K, V>?) {
+    private fun pushLeft(node: T?) {
         var current = node
         while (current != null) {
             stack.addLast(current)
@@ -21,7 +20,7 @@ class TreeDFSIterator<K : Comparable<K>, V>(root: BNode<K, V>?) : Iterator<BNode
 
     override fun hasNext(): Boolean = stack.isNotEmpty()
 
-    override fun next(): BNode<K, V> {
+    override fun next(): T {
         if (!hasNext()) throw NoSuchElementException()
 
         val node = stack.removeLast()
