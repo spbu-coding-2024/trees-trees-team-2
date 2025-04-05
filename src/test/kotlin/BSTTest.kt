@@ -2,7 +2,6 @@ import dto.BNode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
-import dto.Node
 import trees.BinarySearchTree
 
 class BinarySearchTreeTest {
@@ -108,6 +107,7 @@ class BinarySearchTreeTest {
         bst.insert(5, "Five")
         bst.insert(15, "Fifteen")
 
+        bst.treeBFSIterator()
         val iterator = bst.treeBFSIterator()
 
         val nodes = mutableListOf<BNode<Int, String>>()
