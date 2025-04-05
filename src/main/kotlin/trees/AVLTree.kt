@@ -35,11 +35,15 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
         }
         return null
     }
-    //Реализация балансировки
-    //На вход функции подаётся стэк с вершинами, у которых мог измениться фактор баланса
-    //В порядке от самой дальней вершины, до дальней -1 и т.д до самого корня
-    //В стэке вершины хранятся парами: сверху стэка хранится узел, сразу же под ним идёт его родитель.
-    //Соответственно из стэка вершины убираются парами
+
+    /*
+    * Реализация балансировки
+    * На вход функции подаётся стек с вершинами, у которых мог измениться фактор баланса
+    * В порядке пути от самой дальней вершины, до дальней -1 и т.д до самого корня
+    * В стеке вершины хранятся парами: сверху стека хранится узел, сразу же под ним идёт его родитель.
+    * Соответственно из стека вершины убираются парами
+    */
+
     private fun balance(stack: ArrayDeque<AVLNode<K, V>?>) {
         while (stack.isNotEmpty()) {
             //Достаём вершину и его родителя
@@ -49,37 +53,41 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
             if (unbalanceNode != null) {
                 fixHeight(unbalanceNode)
             }
-            //Расчитываем баланс фактор, баланс фактор считается по формуле: высота правого - высота левого потомка
+            /* Высчитываем баланс фактор, баланс фактор считается по формуле: высота правого - высота левого потомка */
             val balanceF = getBalanceValue(unbalanceNode)
-            //Выполняем балансировку
+
+            /* Выполняем балансировку */
             if (balanceF > 1) {
                 if (unbalanceNode != null) {
                     if (getBalanceValue(unbalanceNode.right) < 0) {
                         unbalanceNode.right = rightRotate(unbalanceNode.right)
                     }
+                    /* Проверка, является ли вершина вокруг которой мы вращаем корнем */
                     if (parent != null) {
                         if (parent.key < unbalanceNode.key) {
                             parent.right = leftRotate(unbalanceNode)
                         } else {
                             parent.left = leftRotate(unbalanceNode)
                         }
-                    }else {
+                    } else {
                         root = leftRotate(unbalanceNode)
                     }
                 }
             }
+
             if (balanceF < -1) {
                 if (unbalanceNode != null) {
-                    if (getBalanceValue(unbalanceNode.left) < 0) {
-                        unbalanceNode.right = leftRotate(unbalanceNode.left)
+                    if (getBalanceValue(unbalanceNode.left) > 0) {
+                        unbalanceNode.left = leftRotate(unbalanceNode.left)
                     }
+                    /* Проверка, является ли вершина вокруг которой мы вращаем корнем */
                     if (parent != null) {
                         if (parent.key < unbalanceNode.key) {
                             parent.right = rightRotate(unbalanceNode)
                         } else {
                             parent.left = rightRotate(unbalanceNode)
                         }
-                    }else {
+                    } else {
                         root = rightRotate(unbalanceNode)
                     }
                 }
@@ -87,14 +95,17 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
         }
     }
 
+
     override fun insert(key: K, value: V) {
         if (root == null) {
             root = AVLNode(key, value)
         } else {
             var node = root
+            /* Создаём стек и добавляем в него предок корня(null) и корень */
             val stack = ArrayDeque<AVLNode<K, V>?>()
             stack.addLast(null)
             stack.addLast(node)
+            /* Идём к местоположению искомой вершины, добавляя все вершины по которым прошли в стек */
             while (node != null) {
                 if (key < node.key) {
                     if (node.left == null) {
@@ -117,79 +128,81 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
                     node = node.right
                     stack.addLast(node)
                 } else if (key == node.key) {
+                    /* Вершины с таким ключом уже есть, очищаем стек и перезаписываем value */
                     node.value = value
+                    while(stack.isNotEmpty()) {
+                        stack.removeLast()
+                    }
                     break
                 }
             }
-
             balance(stack)
         }
     }
 
-
     override fun delete(key: K): Boolean {
         var node = root
         var parent: AVLNode<K, V>? = null
+        /* Создаём стек */
         val stack = ArrayDeque<AVLNode<K, V>?>()
-        stack.addLast(parent)
-        stack.addLast(node)
-
-        // Поиск узла и его родителя
+        /* Поиск узла и его родителя, и добавление всех вершин на пути в стек */
         while (node != null && node.key != key) {
-            parent = node
-            node = if (key < node.key) {
-                node.left
-            } else {
-                node.right
-            }
             stack.addLast(parent)
             stack.addLast(node)
+            parent = node
+            if (key < node.key) {
+                node = node.left
+            } else {
+                node = node.right
+            }
         }
 
-        if (node == null) return false// Узел не найден
+        if (node == null) {
+            /* Вершины с таким ключом нет в дереве */
+            while(stack.isNotEmpty()) {
+                stack.removeLast()
+            }
+            return false
+        }
 
-        // Если у узла нет правого поддерева
+        /* Если у узла нет правого поддерева */
         if (node.right == null) {
+            /* В данном случае удаление простое*/
             if (parent == null) {
                 root = node.left // Удаляемый узел - корень
                 stack.addLast(null)
-                stack.addLast(root)
+                stack.addLast(node.left)
             } else {
+                stack.addLast(parent)
                 if (node == parent.left) {
                     parent.left = node.left
+                    stack.addLast(node.left )
                 } else {
                     parent.right = node.left
+                    stack.addLast(node.right)
                 }
-                stack.addLast(parent)
-                stack.addLast(node)
             }
         } else {
-            // Находим наименьший узел в правом поддереве (замену)
+            /* Находим наименьший узел в правом поддереве (замену) */
             var successor: AVLNode<K, V>? = node.right
             var successorParent: AVLNode<K, V>? = node
-            stack.addLast(successorParent)
-            stack.addLast(successor)
 
-            while (successor?.left != null) { // Безопасный вызов ?.left
+            while (successor?.left != null) {
                 successorParent = successor
                 successor = successor.left
-                stack.addLast(successorParent)
-                stack.addLast(successor)
             }
 
-            // Заменяем удаляемый узел найденным узлом
+            /* Заменяем удаляемый узел найденным узлом */
             if (successorParent != node) {
-                successorParent?.left = successor?.right // Безопасный вызов ?.
+                successorParent?.left = successor?.right
                 successor?.right = node.right
-                stack.addLast(successorParent?.left)
-                stack.addLast(successor?.right )
             }
 
             successor?.left = node.left
 
-
+            /* Добавляем замененную вершину в стек и корректируем родителя */
             if (parent == null) {
-                root = successor // Если удаляем корень, меняем его на successor
+                root = successor // Если удаляем корень, делаем его найденной заменой
                 stack.addLast(null)
                 stack.addLast(root)
             } else if (node == parent.left) {
@@ -201,7 +214,21 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
                 stack.addLast(parent)
                 stack.addLast(successor)
             }
-
+            /* Добавляем все вершины, которые прошли в поиске замены в стек */
+            parent = successor
+            if (successor != null) {
+                successor = successor.right
+            }
+            if (successor != null) {
+                stack.addLast(parent)
+                stack.addLast(successor)
+                while(successor?.left != null){
+                    parent = successor
+                    successor = successor.left
+                    stack.addLast(parent)
+                    stack.addLast(successor)
+                }
+            }
         }
 
         balance(stack)
@@ -219,27 +246,26 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V>() {
         }
         return null
     }
-
+    /* Возвращаем высоту вершины */
     private fun confirmHeight(node: AVLNode<K, V>?): Int {
         if (node == null) {
             return 0
         }
         return node.height
     }
-
+    /* Высчитываем фактор баланса */
     private fun getBalanceValue(node: AVLNode<K, V>?): Int {
         if (node == null) {
             return 0
         }
         return confirmHeight(node.right) - confirmHeight(node.left)
     }
-
+    /* Исправляем высоту вершины на корректную */
     private fun fixHeight(node: AVLNode<K, V>?){
         if (node != null) {
             node.height = 1 + max(confirmHeight(node.left), confirmHeight(node.right))
         }
     }
-
 
     fun treeBFSIterator(): Iterator<AVLNode<K, V>> {
         return AVLTreeBFSIterator(root)
