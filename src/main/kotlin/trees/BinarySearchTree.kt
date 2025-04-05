@@ -2,11 +2,10 @@ package trees
 
 import common.Tree
 import dto.BNode
-import dto.Node
 import iterators.TreeBFSIterator
 import iterators.TreeDFSIterator
 
-class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V>() {
+class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V,BNode<K,V>>() {
 
     private var root: BNode<K, V>? = null
 
