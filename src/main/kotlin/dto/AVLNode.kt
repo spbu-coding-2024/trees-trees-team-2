@@ -1,9 +1,4 @@
 package dto
-
-open class AVLNode<K : Comparable<K>, V>(
-    var key: K,
-    var value: V,
-    var height: Int = 1,
-    var left: AVLNode<K, V>? = null,
-    var right: AVLNode<K, V>? = null
-)
+open class AVLNode<K: Comparable<K>, V>(key: K, value: V) : Node<K, V, AVLNode<K,V>>(key, value) {
+    var height = 1
+}
