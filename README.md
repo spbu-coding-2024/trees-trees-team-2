@@ -12,15 +12,12 @@ com/example/datastructures/
 │   ├── Tree.kt           # Интерфейс для деревьев
 │── dto/                  # Общие объекты
 │   ├── Node.kt           # Самый базовый узел
+│   ├── BNode.kt           # Узел для Бинарного-дерева
 │   ├── AVLNode.kt           # Узел для АВЛ-дерева
-│   ├── RBNode.kt           # Узел для АВЛ-дерева
+│   ├── RBNode.kt           # Узел для Красно-черное-дерева
 │── iterators/            # Общие итераторы
 │   ├── TreeBFSIterator.kt  # Итератор обхода в ширину
 │   ├── TreeDFSIterator.kt  # Итератор обхода в глубину
-│   ├── AVLTreeBFSIterator.kt  # Итератор обхода в ширину для АВЛ-дерева
-│   ├── AVLTreeDFSIterator.kt  # Итератор обхода в глубину для АВЛ-дерева
-│   ├── RBTreeBFSIterator.kt  # Итератор обхода в ширину для Красно-черного дерева
-│   ├── RBTreeDFSIterator.kt  # Итератор обхода в глубину для Красно-черного дерева
 │── trees/                # Реализации различных деревьев
 │   ├── BinarySearchTree.kt    # Реализация BST
 │   ├── RedBlackTree.kt        # Реализация красно-черного дерева

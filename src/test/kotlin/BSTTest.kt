@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import trees.BinarySearchTree
+import kotlin.random.Random
 
 class BinarySearchTreeTest {
 
@@ -522,7 +523,6 @@ class BinarySearchTreeTest {
         bst.insert(35, "Thirty-Five")
         bst.insert(50, "Fifty")
 
-        // BFS traversal (should be level-wise)
         val bfsIterator = bst.treeBFSIterator()
         val bfsNodes = mutableListOf<BNode<Int, String>>()
         while (bfsIterator.hasNext()) {
@@ -538,7 +538,6 @@ class BinarySearchTreeTest {
         assertEquals(35, bfsNodes[5].key)
         assertEquals(50, bfsNodes[6].key)
 
-        // DFS traversal (should be depth-first)
         val dfsIterator = bst.treeDFSIterator()
         val dfsNodes = mutableListOf<BNode<Int, String>>()
         while (dfsIterator.hasNext()) {
@@ -555,4 +554,170 @@ class BinarySearchTreeTest {
         assertEquals(50, dfsNodes[6].key)
     }
 
+    @Test
+    fun `test DFS iterator for unbalanced tree`() {
+        bst.insert(50, "Fifty")
+        bst.insert(60, "Sixty")
+        bst.insert(70, "Seventy")
+        bst.insert(80, "Eighty")
+        bst.insert(90, "Ninety")
+
+        val iterator = bst.treeDFSIterator()
+        val nodes = mutableListOf<BNode<Int, String>>()
+        while (iterator.hasNext()) {
+            nodes.add(iterator.next())
+        }
+
+        assertEquals(5, nodes.size)
+        assertEquals(50, nodes[0].key)
+        assertEquals(60, nodes[1].key)
+        assertEquals(70, nodes[2].key)
+        assertEquals(80, nodes[3].key)
+        assertEquals(90, nodes[4].key)
+    }
+
+    @Test
+    fun `test BFS and DFS iterators for a balanced tree`() {
+        bst.insert(50, "Fifty")
+        bst.insert(30, "Thirty")
+        bst.insert(70, "Seventy")
+        bst.insert(20, "Twenty")
+        bst.insert(40, "Forty")
+        bst.insert(60, "Sixty")
+        bst.insert(80, "Eighty")
+
+        val bfsIterator = bst.treeBFSIterator()
+        val bfsNodes = mutableListOf<BNode<Int, String>>()
+        while (bfsIterator.hasNext()) {
+            bfsNodes.add(bfsIterator.next())
+        }
+
+        assertEquals(7, bfsNodes.size)
+        assertEquals(50, bfsNodes[0].key)
+        assertEquals(30, bfsNodes[1].key)
+        assertEquals(70, bfsNodes[2].key)
+
+        val dfsIterator = bst.treeDFSIterator()
+        val dfsNodes = mutableListOf<BNode<Int, String>>()
+        while (dfsIterator.hasNext()) {
+            dfsNodes.add(dfsIterator.next())
+        }
+
+        assertEquals(7, dfsNodes.size)
+        assertEquals(20, dfsNodes[0].key)
+        assertEquals(30, dfsNodes[1].key)
+        assertEquals(40, dfsNodes[2].key)
+    }
+
+    @Test
+    fun `test insert random values`() {
+        val randomValues = List(100) { Random.nextInt(-1000, 1000) }
+        val expectedMap = mutableMapOf<Int, String>()
+
+        randomValues.forEach {
+            val value = "Value$it"
+            bst.insert(it, value)
+            expectedMap[it] = value
+        }
+
+        randomValues.forEach {
+            assertEquals("Value$it", bst.search(it))
+        }
+    }
+
+    @Test
+    fun `test delete random values`() {
+        val randomValues = List(100) { Random.nextInt(-1000, 1000) }
+
+        randomValues.forEach {
+            bst.insert(it, "Value$it")
+        }
+
+        randomValues.shuffled().forEach {
+            bst.delete(it)
+            assertNull(bst.search(it))
+        }
+
+        randomValues.forEach {
+            assertNull(bst.search(it))
+        }
+    }
+
+    @Test
+    fun `test insert random values and update value with same key`() {
+        val randomValues = List(100) { Random.nextInt(-1000, 1000) }
+
+        randomValues.forEach {
+            bst.insert(it, "Value$it")
+        }
+
+        randomValues.forEach {
+            assertEquals("Value$it", bst.search(it))
+        }
+
+        randomValues.shuffled().take(50).forEach {
+            bst.insert(it, "Value$it") // Обновляем значение для половины значений
+            assertEquals("Value$it", bst.search(it))
+        }
+
+        randomValues.shuffled().take(50).forEach {
+            assertEquals("Value$it", bst.search(it)) // Проверяем обновленные значения
+        }
+
+        randomValues.filterNot { it in randomValues.shuffled().take(50) }.forEach {
+            assertEquals("Value$it", bst.search(it)) // Проверяем не обновленные значения
+        }
+    }
+
+    @Test
+    fun `test random insert search and delete operations`() {
+        val randomValues = List(100) { Random.nextInt(-1000, 1000) }
+        val expectedMap = mutableMapOf<Int, String>()
+
+        randomValues.forEach {
+            val value = "Value$it"
+            bst.insert(it, value)
+            expectedMap[it] = value
+        }
+
+        randomValues.forEach {
+            assertEquals("Value$it", bst.search(it))
+        }
+
+        val valuesToDelete = randomValues.shuffled().take(50)
+        valuesToDelete.forEach {
+            bst.delete(it)
+            assertNull(bst.search(it))
+        }
+
+        randomValues.forEach {
+            if (it in valuesToDelete) {
+                assertNull(bst.search(it))
+            } else {
+                assertEquals("Value$it", bst.search(it))
+            }
+        }
+    }
+
+    @Test
+    fun `test insert values in descending order`() {
+        val descendingValues = (100 downTo 1).toList()
+        descendingValues.forEach {
+            bst.insert(it, "Value$it")
+        }
+
+        descendingValues.forEach {
+            assertEquals("Value$it", bst.search(it))
+        }
+    }
+
+    @Test
+    fun `test insert with same key updates value`() {
+        val key = 100
+        bst.insert(key, "Value1")
+        bst.insert(key, "Value2")
+        bst.insert(key, "Value3")
+
+        assertEquals("Value3", bst.search(key))
+    }
 }
