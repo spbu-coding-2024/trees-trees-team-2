@@ -7,7 +7,14 @@ import dto.Node
 import iterators.TreeBFSIterator
 import iterators.TreeDFSIterator
 
-
+/**
+ * Реализация самобалансирующегося красно-черного дерева.
+ * @param K Тип ключа, должен поддерживать сравнение [Comparable]
+ * @param V Тип значения
+ * Поддержка основных операций: поиск, вставка, удаление
+ * @see RBNode Класс узла дерева
+ * @see Tree Базовый класс дерева
+ */
 class RedBlackTree<K : Comparable<K>, V> : Tree<K, V,RBNode<K,V>>() {
     var root: RBNode<K, V>? = null
 
@@ -97,6 +104,7 @@ class RedBlackTree<K : Comparable<K>, V> : Tree<K, V,RBNode<K,V>>() {
         }
         return
     }
+
     private fun  insertCase4(RBNode: RBNode<K, V>?) {
         var node1 = RBNode
         val parent = node1?.parent
