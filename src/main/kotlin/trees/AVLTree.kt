@@ -7,11 +7,25 @@ import iterators.TreeDFSIterator
 import kotlin.math.max
 import kotlin.collections.ArrayDeque
 
+/**
+ * Класс [AVLTree] представляет собой реализацию АВЛ-дерева.
+ *
+ * АВЛ-дерева — это бинарное дерево поиска, в котором разницы высот левого и правого поддерева каждый вершины меньше 2.
+ *
+ * @param K Тип ключа, который должен быть сравнимым (реализует интерфейс [Comparable]).
+ * @param V Тип значения, которое хранится в узле дерева.
+ * @constructor Создает пустое бинарное дерево поиска.
+ */
+
 class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
 
     private var root: AVLNode<K, V>? = null
 
-    /* Реализация левого поворота */
+    /**
+     * Выполняет левый поворот вершины
+     *
+     * @param node Вершина относительно которой выполняем поворот.
+     */
     private fun leftRotate(node: AVLNode<K, V>?): AVLNode<K, V>?  {
         if (node != null) {
             val tmpNode = node.right
@@ -23,7 +37,12 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         }
         return null
     }
-    /* Реализация правого поворота */
+
+    /**
+     * Выполняет правый поворот вершины
+     *
+     * @param node Вершина относительно которой выполняем поворот.
+     */
     private fun rightRotate(node: AVLNode<K, V>?): AVLNode<K, V>? {
         if (node != null) {
             val tmpNode = node.left
@@ -36,14 +55,13 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         return null
     }
 
-    /*
-    * Реализация балансировки
-    * На вход функции подаётся стек с вершинами, у которых мог измениться фактор баланса
-    * В порядке пути от самой дальней вершины, до дальней -1 и т.д до самого корня
-    * В стеке вершины хранятся парами: сверху стека хранится узел, сразу же под ним идёт его родитель.
-    * Соответственно из стека вершины убираются парами
-    */
-
+    /**
+     * Выполняет балансировку вершины
+     * @param stack На вход функции подаётся стек с вершинами, у которых мог измениться фактор баланса
+     * В порядке пути от самой дальней вершины, до дальней -1 и т.д до самого корня
+     * В стеке вершины хранятся парами: сверху стека хранится узел, сразу же под ним идёт его родитель.
+     * Соответственно из стека вершины убираются парами
+     */
     private fun balance(stack: ArrayDeque<AVLNode<K, V>?>) {
         while (stack.isNotEmpty()) {
             /* Достаём вершину и его родителя */
@@ -95,7 +113,13 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         }
     }
 
-
+    /**
+     * Вставляет новый элемент с заданным ключом и значением в дерево.
+     * Если элемент с таким ключом уже существует, обновляется его значение.
+     *
+     * @param key Ключ элемента, который необходимо вставить.
+     * @param value Значение элемента, которое необходимо вставить.
+     */
     override fun insert(key: K, value: V) {
         if (root == null) {
             root = AVLNode(key, value)
@@ -140,6 +164,13 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         }
     }
 
+    /**
+     * Удаляет элемент с заданным ключом из дерева.
+     * Если элемент с таким ключом не найден, возвращает false.
+     *
+     * @param key Ключ элемента, который нужно удалить.
+     * @return true, если элемент был успешно удален, иначе false.
+     */
     override fun delete(key: K): Boolean {
         var node = root
         var parent: AVLNode<K, V>? = null
@@ -235,35 +266,60 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         return true
     }
 
+    /**
+     * Ищет значение по ключу в дереве.
+     *
+     * @param key Ключ элемента, значение которого нужно найти.
+     * @return Значение, соответствующее ключу, или null, если элемент не найден.
+     */
     override fun search(key: K): V? {
         return searchValue(root, key)
     }
 
-    /* Возвращаем высоту вершины */
+    /**
+     * @return Возвращает высоту вершину
+     */
     private fun confirmHeight(node: AVLNode<K, V>?): Int {
         if (node == null) {
             return 0
         }
         return node.height
     }
-    /* Высчитываем фактор баланса */
+
+    /**
+     * @return Возвращает фактор баланса вершины
+     * по формуле: высота правого потомка - высота левого потомка
+     */
     private fun getBalanceValue(node: AVLNode<K, V>?): Int {
         if (node == null) {
             return 0
         }
         return confirmHeight(node.right) - confirmHeight(node.left)
     }
-    /* Исправляем высоту вершины на корректную */
+
+    /**
+     * Чинит высоту вершины
+     */
     private fun fixHeight(node: AVLNode<K, V>?){
         if (node != null) {
             node.height = 1 + max(confirmHeight(node.left), confirmHeight(node.right))
         }
     }
 
+    /**
+     * Создает итератор для обхода дерева в ширину (BFS).
+     *
+     * @return Итератор для обхода дерева в ширину.
+     */
     override fun treeBFSIterator(): Iterator<AVLNode<K, V>> {
         return TreeBFSIterator(root)
     }
 
+    /**
+     * Создает итератор для обхода дерева в глубину (DFS).
+     *
+     * @return Итератор для обхода дерева в глубину.
+     */
     override fun treeDFSIterator(): Iterator<AVLNode<K, V>> {
         return TreeDFSIterator(root)
     }
