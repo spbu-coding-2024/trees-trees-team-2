@@ -1,0 +1,78 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/datastructures-kotlin/[root]/index.html
+$dokka.location:/Color.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}datastructures-kotlin/[root]/-color/-b-l-a-c-k/index.html
+$dokka.location:/Color.RED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}datastructures-kotlin/[root]/-color/-r-e-d/index.html
+$dokka.location:/Color///PointingToDeclaration/datastructures-kotlin/[root]/-color/index.html
+$dokka.location:/Color/entries/#/PointingToDeclaration/datastructures-kotlin/[root]/-color/entries.html
+$dokka.location:/Color/valueOf/#kotlin.String/PointingToDeclaration/datastructures-kotlin/[root]/-color/value-of.html
+$dokka.location:/Color/values/#/PointingToDeclaration/datastructures-kotlin/[root]/-color/values.html
+$dokka.location:/RBNode///PointingToDeclaration/datastructures-kotlin/[root]/-r-b-node/index.html
+$dokka.location:/RBNode/RBNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/[root]/-r-b-node/-r-b-node.html
+$dokka.location:/RBNode/color/#/PointingToDeclaration/datastructures-kotlin/[root]/-r-b-node/color.html
+$dokka.location:/RBNode/isLeaf/#/PointingToDeclaration/datastructures-kotlin/[root]/-r-b-node/is-leaf.html
+$dokka.location:/RBNode/parent/#/PointingToDeclaration/datastructures-kotlin/[root]/-r-b-node/parent.html
+$dokka.location:common////PointingToDeclaration/datastructures-kotlin/common/index.html
+$dokka.location:common/Tree///PointingToDeclaration/datastructures-kotlin/common/-tree/index.html
+$dokka.location:common/Tree/Tree/#/PointingToDeclaration/datastructures-kotlin/common/-tree/-tree.html
+$dokka.location:common/Tree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/common/-tree/delete.html
+$dokka.location:common/Tree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/common/-tree/insert.html
+$dokka.location:common/Tree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/common/-tree/search.html
+$dokka.location:common/Tree/treeBFSIterator/#/PointingToDeclaration/datastructures-kotlin/common/-tree/tree-b-f-s-iterator.html
+$dokka.location:common/Tree/treeDFSIterator/#/PointingToDeclaration/datastructures-kotlin/common/-tree/tree-d-f-s-iterator.html
+$dokka.location:dto////PointingToDeclaration/datastructures-kotlin/dto/index.html
+$dokka.location:dto/AVLNode///PointingToDeclaration/datastructures-kotlin/dto/-a-v-l-node/index.html
+$dokka.location:dto/AVLNode/AVLNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/dto/-a-v-l-node/-a-v-l-node.html
+$dokka.location:dto/AVLNode/height/#/PointingToDeclaration/datastructures-kotlin/dto/-a-v-l-node/height.html
+$dokka.location:dto/BNode///PointingToDeclaration/datastructures-kotlin/dto/-b-node/index.html
+$dokka.location:dto/BNode/BNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/dto/-b-node/-b-node.html
+$dokka.location:dto/Node///PointingToDeclaration/datastructures-kotlin/dto/-node/index.html
+$dokka.location:dto/Node/Node/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#TypeParam(bounds=[kotlin.Any?])?#TypeParam(bounds=[kotlin.Any?])?/PointingToDeclaration/datastructures-kotlin/dto/-node/-node.html
+$dokka.location:dto/Node/key/#/PointingToDeclaration/datastructures-kotlin/dto/-node/key.html
+$dokka.location:dto/Node/left/#/PointingToDeclaration/datastructures-kotlin/dto/-node/left.html
+$dokka.location:dto/Node/right/#/PointingToDeclaration/datastructures-kotlin/dto/-node/right.html
+$dokka.location:dto/Node/value/#/PointingToDeclaration/datastructures-kotlin/dto/-node/value.html
+$dokka.location:iterators////PointingToDeclaration/datastructures-kotlin/iterators/index.html
+$dokka.location:iterators/TreeBFSIterator///PointingToDeclaration/datastructures-kotlin/iterators/-tree-b-f-s-iterator/index.html
+$dokka.location:iterators/TreeBFSIterator/TreeBFSIterator/#TypeParam(bounds=[dto.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/datastructures-kotlin/iterators/-tree-b-f-s-iterator/-tree-b-f-s-iterator.html
+$dokka.location:iterators/TreeBFSIterator/hasNext/#/PointingToDeclaration/datastructures-kotlin/iterators/-tree-b-f-s-iterator/has-next.html
+$dokka.location:iterators/TreeBFSIterator/next/#/PointingToDeclaration/datastructures-kotlin/iterators/-tree-b-f-s-iterator/next.html
+$dokka.location:iterators/TreeDFSIterator///PointingToDeclaration/datastructures-kotlin/iterators/-tree-d-f-s-iterator/index.html
+$dokka.location:iterators/TreeDFSIterator/TreeDFSIterator/#TypeParam(bounds=[dto.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/datastructures-kotlin/iterators/-tree-d-f-s-iterator/-tree-d-f-s-iterator.html
+$dokka.location:iterators/TreeDFSIterator/hasNext/#/PointingToDeclaration/datastructures-kotlin/iterators/-tree-d-f-s-iterator/has-next.html
+$dokka.location:iterators/TreeDFSIterator/next/#/PointingToDeclaration/datastructures-kotlin/iterators/-tree-d-f-s-iterator/next.html
+$dokka.location:trees////PointingToDeclaration/datastructures-kotlin/trees/index.html
+$dokka.location:trees/AVLTree///PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/index.html
+$dokka.location:trees/AVLTree/AVLTree/#/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/-a-v-l-tree.html
+$dokka.location:trees/AVLTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/delete.html
+$dokka.location:trees/AVLTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/insert.html
+$dokka.location:trees/AVLTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/search.html
+$dokka.location:trees/AVLTree/treeBFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/tree-b-f-s-iterator.html
+$dokka.location:trees/AVLTree/treeDFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-a-v-l-tree/tree-d-f-s-iterator.html
+$dokka.location:trees/BinarySearchTree///PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/index.html
+$dokka.location:trees/BinarySearchTree/BinarySearchTree/#/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/-binary-search-tree.html
+$dokka.location:trees/BinarySearchTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/delete.html
+$dokka.location:trees/BinarySearchTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/insert.html
+$dokka.location:trees/BinarySearchTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/search.html
+$dokka.location:trees/BinarySearchTree/treeBFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/tree-b-f-s-iterator.html
+$dokka.location:trees/BinarySearchTree/treeDFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-binary-search-tree/tree-d-f-s-iterator.html
+$dokka.location:trees/RedBlackTree///PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/index.html
+$dokka.location:trees/RedBlackTree/RedBlackTree/#/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/-red-black-tree.html
+$dokka.location:trees/RedBlackTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete.html
+$dokka.location:trees/RedBlackTree/deleteCase1/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case1.html
+$dokka.location:trees/RedBlackTree/deleteCase2/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case2.html
+$dokka.location:trees/RedBlackTree/deleteCase3/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case3.html
+$dokka.location:trees/RedBlackTree/deleteCase4/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case4.html
+$dokka.location:trees/RedBlackTree/deleteCase5/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case5.html
+$dokka.location:trees/RedBlackTree/deleteCase6/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/delete-case6.html
+$dokka.location:trees/RedBlackTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/insert.html
+$dokka.location:trees/RedBlackTree/root/#/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/root.html
+$dokka.location:trees/RedBlackTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/search.html
+$dokka.location:trees/RedBlackTree/sibling/#RBNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/sibling.html
+$dokka.location:trees/RedBlackTree/treeBFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/tree-b-f-s-iterator.html
+$dokka.location:trees/RedBlackTree/treeDFSIterator/#/PointingToDeclaration/datastructures-kotlin/trees/-red-black-tree/tree-d-f-s-iterator.html
+common
+dto
+iterators
+trees
+
