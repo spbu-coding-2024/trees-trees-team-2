@@ -15,7 +15,7 @@ dependencies {
 }
 
 tasks.dokkaHtml {
-    outputDirectory = file("$buildDir/dokka")
+    outputDirectory.set(layout.buildDirectory.dir("dokka"))
 }
 
 test {

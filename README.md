@@ -14,7 +14,7 @@ com/example/datastructures/
 │   ├── Node.kt           # Самый базовый узел
 │   ├── BNode.kt           # Узел для BST
 │   ├── AVLNode.kt           # Узел для АВЛ-дерева
-│   ├── RBNode.kt           # Узел для красно-черного дерева
+│   ├── RBNode.kt           # Узел для Красно-черного дерева
 │── iterators/            # Общие итераторы
 │   ├── TreeBFSIterator.kt  # Итератор обхода в ширину
 │   ├── TreeDFSIterator.kt  # Итератор обхода в глубину

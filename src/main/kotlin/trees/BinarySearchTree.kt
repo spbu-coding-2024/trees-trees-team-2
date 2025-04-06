@@ -29,28 +29,24 @@ class BinarySearchTree<K : Comparable<K>, V> : Tree<K, V, BNode<K, V>>() {
      */
     override fun insert(key: K, value: V) {
         if (root == null) {
-            // Если дерево пусто, создаем корень
             root = BNode(key, value)
         } else {
             var node = root
-            // Ищем место для нового узла
             while (node != null) {
                 if (key < node.key) {
-                    // Если ключ меньше текущего, идем в левое поддерево
                     if (node.left == null) {
-                        node.left = BNode(key, value)  // Вставляем новый узел
+                        node.left = BNode(key, value)
                         break
                     }
                     node = node.left
                 } else if (key > node.key) {
-                    // Если ключ больше текущего, идем в правое поддерево
                     if (node.right == null) {
-                        node.right = BNode(key, value)  // Вставляем новый узел
+                        node.right = BNode(key, value)
                         break
                     }
                     node = node.right
                 } else {
-                    // Если ключ уже существует, обновляем значение
+                    // Обновляем значение, если ключ уже существует
                     node.value = value
                     break
                 }
