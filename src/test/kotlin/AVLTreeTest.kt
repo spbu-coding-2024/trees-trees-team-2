@@ -4,10 +4,15 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import trees.AVLTree
 import kotlin.math.max
+import java.util.Random
 
 class AVLTreeTest {
 
     private lateinit var bst: AVLTree<Int, String>
+
+    fun Random.nextInt(range: IntRange): Int {
+        return range.start + nextInt(range.last - range.start + 1)
+    }
 
     private fun confirmHeight(node: AVLNode<Int, String>?): Int {
         if (node == null) {
@@ -841,70 +846,369 @@ class AVLTreeTest {
         }
     }
 
-    /* test insert and delete for large tree выполняется довольно долго*/
     @Test
     fun `test insert and delete for large tree`() {
-        for (i in 1..12500) {
+        for (i in 1..1250) {
             bst.insert(i, "Value$i")
         }
         /* Проверка выполнения свойств авл-дерева */
         assertTrue(checkBST(bst))
-        checkAVL(bst, 12500)
+        checkAVL(bst, 1250)
 
 
-        for (i in 75001..100000) {
+        for (i in 7501..10000) {
             bst.insert(i, "Value$i")
         }
         /* Проверка выполнения свойств авл-дерева */
         assertTrue(checkBST(bst))
-        checkAVL(bst, 37500)
+        checkAVL(bst, 3750)
 
 
-        for (i in 12501..25000) {
+        for (i in 1251..2500) {
             bst.insert(i, "Value$i")
         }
         /* Проверка выполнения свойств авл-дерева */
         assertTrue(checkBST(bst))
-        checkAVL(bst, 50000)
+        checkAVL(bst, 5000)
 
 
-        for (i in 50001..75000) {
+        for (i in 5001..7500) {
             bst.insert(i, "Value$i")
         }
         /* Проверка выполнения свойств авл-дерева */
         assertTrue(checkBST(bst))
-        checkAVL(bst, 75000)
+        checkAVL(bst, 7500)
 
 
-        for (i in 25001..50000) {
+        for (i in 2501..5000) {
             bst.insert(i, "Value$i")
         }
         /* Проверка выполнения свойств авл-дерева */
         assertTrue(checkBST(bst))
-        checkAVL(bst, 100000)
+        checkAVL(bst, 10000)
 
 
-        for (i in 1..100000) {
+        for (i in 1..10000) {
             assertEquals("Value$i", bst.search(i))
         }
 
-        for (i in 1000..5000) {
+        for (i in 100..500) {
             bst.delete(i)
             /* Проверка выполнения свойств авл-дерева */
-            checkAVL(bst, 100000 + 999 - i)
+            checkAVL(bst, 10000 + 99 - i)
         }
         assertTrue(checkBST(bst))
 
-        for (i in 1000..5000) {
+        for (i in 100..500) {
             assertNull(bst.search(i))
         }
 
-        for (i in 1..999) {
+        for (i in 1..99) {
             assertEquals("Value$i", bst.search(i))
         }
-        for (i in 5001..100000) {
+        for (i in 501..10000) {
             assertEquals("Value$i", bst.search(i))
         }
 
+    }
+
+    @Test
+    fun `test with random tree1`() {
+        val random = Random()
+        val addedNodes = mutableListOf<Int>()
+        for (i in 1..250) {
+            val tmp = random.nextInt(1..10000)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size)
+        }
+
+        for (i in 0..<addedNodes.size) {
+            val tmp = addedNodes[i]
+            assertEquals("Value$tmp", bst.search(tmp))
+        }
+
+        var len = 0
+        for (i in 1..100) {
+            val tmp = random.nextInt(1..10000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+    }
+
+    @Test
+    fun `test with random tree2`() {
+        val random = Random()
+        val addedNodes = mutableListOf<Int>()
+        for (i in 1..500) {
+            val tmp = random.nextInt(2000..10000)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size)
+        }
+
+        for (i in 0..<addedNodes.size) {
+            val tmp = addedNodes[i]
+            assertEquals("Value$tmp", bst.search(tmp))
+        }
+        var len = 0
+        for (i in 1..200) {
+            val tmp = random.nextInt(1..8000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+    }
+
+    @Test
+    fun `test with random tree3`() {
+        val random = Random()
+        val addedNodes = mutableListOf<Int>()
+        for (i in 1..500) {
+            val tmp = random.nextInt(1000..10000)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size)
+        }
+
+
+        for (i in 0..<addedNodes.size) {
+            val tmp = addedNodes[i]
+            assertEquals("Value$tmp", bst.search(tmp))
+        }
+
+        var len = 0
+        for (i in 1..200) {
+            val tmp = random.nextInt(1..5000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+
+        for (i in 1..200) {
+            val tmp = random.nextInt(10001..13000)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+    }
+
+    @Test
+    fun `test with random tree4`() {
+        val random = Random()
+        val addedNodes = mutableListOf<Int>()
+        for (i in 1..500) {
+            val tmp = random.nextInt(5000..10000)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size)
+        }
+
+
+        for (i in 0..<addedNodes.size) {
+            val tmp = addedNodes[i]
+            assertEquals("Value$tmp", bst.search(tmp))
+        }
+
+        var len = 0
+        for (i in 1..200) {
+            val tmp = random.nextInt(1..15000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+
+        for (i in 1..200) {
+            val tmp = random.nextInt(10001..12500)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+        for (i in 1..100) {
+            val tmp = random.nextInt(8000..15000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+    }
+
+    @Test
+    fun `test with random tree5`() {
+        val random = Random()
+        val addedNodes = mutableListOf<Int>()
+        for (i in 1..500) {
+            val tmp = random.nextInt(1000..7500)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size)
+        }
+
+
+        for (i in 0..<addedNodes.size) {
+            val tmp = addedNodes[i]
+            assertEquals("Value$tmp", bst.search(tmp))
+        }
+
+        var len = 0
+        for (i in 1..400) {
+            val tmp = random.nextInt(1..10000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+
+        for (i in 1..200) {
+            val tmp = random.nextInt(8000..12500)
+            bst.insert(tmp, "Value$tmp")
+            addedNodes.add(tmp)
+            var cnt = 0
+            while (cnt < addedNodes.size) {
+                if (cnt == addedNodes.size - 1) {
+                    break
+                }
+                if (addedNodes[cnt] == tmp) {
+                    addedNodes.removeLast()
+                    break
+                }
+                cnt++
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
+
+        for (i in 1..300) {
+            val tmp = random.nextInt(5000..10000)
+            if (bst.delete(tmp)) {
+                len++
+                assertNull(bst.search(tmp))
+            }
+            /* Проверка выполнения свойств авл-дерева */
+            assertTrue(checkBST(bst))
+            checkAVL(bst, addedNodes.size - len)
+        }
     }
 }
