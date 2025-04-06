@@ -11,7 +11,7 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
 
     private var root: AVLNode<K, V>? = null
 
-    //Реализация левого поворота
+    /* Реализация левого поворота */
     private fun leftRotate(node: AVLNode<K, V>?): AVLNode<K, V>?  {
         if (node != null) {
             val tmpNode = node.right
@@ -23,7 +23,7 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
         }
         return null
     }
-    //Реализация правого поворота
+    /* Реализация правого поворота */
     private fun rightRotate(node: AVLNode<K, V>?): AVLNode<K, V>? {
         if (node != null) {
             val tmpNode = node.left
@@ -46,10 +46,10 @@ class AVLTree<K : Comparable<K>, V> : Tree<K, V,AVLNode<K,V>>() {
 
     private fun balance(stack: ArrayDeque<AVLNode<K, V>?>) {
         while (stack.isNotEmpty()) {
-            //Достаём вершину и его родителя
+            /* Достаём вершину и его родителя */
             val unbalanceNode = stack.removeLast()
             val parent = stack.removeLast()
-            //Чиним высоту вершины
+            /* Чиним высоту вершины */
             if (unbalanceNode != null) {
                 fixHeight(unbalanceNode)
             }
